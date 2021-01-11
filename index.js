@@ -14,9 +14,7 @@ app.use(cors());
 app.use(express.json({extended: true}))
 
 app.use('/api/users', userRoutes);
-app.use('/api/courses', coursesRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/comments', commentsRoutes);
 
 app.listen(PORT, ()=> {
     console.log(`Aplicacion corriendo en el puerto ${PORT}`)

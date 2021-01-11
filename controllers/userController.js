@@ -1,4 +1,3 @@
-const  Courses = require( '../models/Courses');
 const Users = require('../models/Users');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
@@ -60,6 +59,8 @@ exports.createUser = async (req, res) => {
 
 exports.editUser = async (req, res) => {
     const errors = validationResult(req);
+    console.log(req.body);
+    console.log(req.params);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array });
     }
@@ -81,8 +82,9 @@ exports.deleteUser = async (req,res) =>{
         return res.status(400).json({errors:errors.array});
     }
     const {id} = req.params;
+    console.log(id);
     try {
-        Users.findOneAndRemove({_id:id})
+        await Users.findOneAndRemove({_id:id})
         res.status(200).json({msg:"Usuario eliminado"})
     } catch (error) {
         console.log(error)

@@ -11,6 +11,7 @@ exports.authUser = async (req, res) => {
     const { email, password } = req.body;
     try {
         let user = await Users.findOne({ email });
+        console.log(user);
         if (!user) {
             res.status(400).json({ msg: 'El usuario no existe' })
         }
@@ -38,7 +39,8 @@ exports.authUser = async (req, res) => {
 exports.getAuthUser = async (req, res) => {
     try {
         const user = await Users.findById(req.user.id).select('-password')
-        res.json({ user })
+        console.log(`hola ${user}`);
+        res.status(200).json({ user })
     } catch (error) {
         console.log(error);
         res.status(500).json({ msg: 'Error de servidor ' })
