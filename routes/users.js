@@ -6,6 +6,7 @@ const { check } = require('express-validator');
 
 
 router.get('/',[],userController.getUsers)
+router.get('/:id',[],userController.getUser)
 router.post('/', [
     check('name', 'El nombre de usuario es obligatorio').not().isEmpty(),
     check('email', 'El email no es valido').isEmail(),

@@ -39,7 +39,6 @@ exports.authUser = async (req, res) => {
 exports.getAuthUser = async (req, res) => {
     try {
         const user = await Users.findById(req.user.id).select('-password')
-        console.log(`hola ${user}`);
         res.status(200).json({ user })
     } catch (error) {
         console.log(error);
