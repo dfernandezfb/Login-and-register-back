@@ -96,8 +96,9 @@ exports.deleteUser = async (req,res) =>{
     }
     const {id} = req.params;
     try {
-        await Users.findOneAndRemove({_id:id})
-        res.status(200).json({msg:"Usuario eliminado"})
+        const userDeleted = await Users.findOneAndRemove({_id:id})
+        console.log(userDeleted);
+        res.status(200).json(userDeleted)
     } catch (error) {
         console.log(error)
         res.status(400).json({msg:"Error en la peticion"})

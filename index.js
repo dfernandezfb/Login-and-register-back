@@ -16,6 +16,8 @@ app.use(express.json({extended: true}))
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 
-app.listen(PORT, ()=> {
+const server = app.listen(PORT, ()=> {
     console.log(`Aplicacion corriendo en el puerto ${PORT}`)
 })
+
+
