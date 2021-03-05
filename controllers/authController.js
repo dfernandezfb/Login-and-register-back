@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
-exports.authUser = async (req, res) => {
+exports.login = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array })
@@ -12,11 +12,11 @@ exports.authUser = async (req, res) => {
     try {
         let user = await Users.findOne({ email });
         if (!user) {
-            res.status(400).json({ msg: 'El usuario no existe' })
+            res.status(400).json({ msg: 'Credenciales incorrectas' })
         }
         let correctPass = await bcrypt.compare(password, user.password)
         if (!correctPass) {
-            res.status(400).json({ msg: 'La contrasena no es correcta' });
+            res.status(400).json({ msg: 'Credenciales incorrectas' });
         }
         const payload = {
             user: {
@@ -38,9 +38,12 @@ exports.authUser = async (req, res) => {
 exports.getAuthUser = async (req, res) => {
     try {
         const user = await Users.findById(req.user.id).select('-password')
+        if (!user) {
+            res.status(401).json({ msg: 'No posee permisos' });
+        }
         res.status(200).json({ user })
     } catch (error) {
         console.log(error);
-        res.status(500).json({ msg: 'Error de servidor ' })
+        res.status(400).json({ msg: 'Error de servidor ' })
     }
 }

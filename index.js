@@ -4,19 +4,17 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 
+require('dotenv').config({path:'variables.env'});
 const app = express();
 const PORT = process.env.PORT || 4000;
-//conexión a la base de datos 
 connectDB();
-//Se Habilitan request desde cualquier URL
 app.use(cors());
-//Leer los archivos JSON
 app.use(express.json({extended: true}))
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 
-const server = app.listen(PORT, ()=> {
+app.listen(PORT, ()=> {
     console.log(`Aplicacion corriendo en el puerto ${PORT}`)
 })
 

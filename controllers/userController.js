@@ -25,17 +25,13 @@ exports.createUser = async (req, res) => {
     const { email, password } = req.body;
     try {
         let user = await Users.findOne({ email });
-        //Si el usuario existe, entonces que devuelva error
         if (user) {
             res.status(400).json({ msg: 'El usuario ya existe' });
         }
         user = new Users(req.body);
-        //Genero Salt 
         const salt = await bcrypt.genSalt(10);
-        //Hasheo Paswword
         user.password = await bcrypt.hash(password, salt);
         await user.save();
-        //guardo usuario y creo payload para jwt
         const payload = {
             user: {
                 id: user._id
